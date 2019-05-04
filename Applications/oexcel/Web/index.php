@@ -1,6 +1,6 @@
 <html><head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <title>workerman-chat PHP聊天室 Websocket(HTLM5/Flash)+PHP多进程socket实时推送技术</title>
+  <title>在线提交</title>
   <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/style.css" rel="stylesheet">
 	
@@ -40,6 +40,19 @@
 							<td align="center">11</td>
 							<td align="center">9</td>
 						</tr>
+						<?php $old = file_get_contents('submit.txt');
+							if(!empty($old)){
+								$old = explode("\n",$old);
+								
+								foreach ($old as $val){
+						?>
+								<tr id='old'>
+									<?php foreach (json_decode($val) as $v){?>
+									<td align="center"><?php echo $v;?></td>
+									<?php }?>
+								</tr>
+						<?php 	}}?>
+						
 						<tr>
 							<td height="30" align="center">
 								<?php echo $_SESSION['client_name'];?></td>

@@ -63,8 +63,11 @@ class Events
                 	$res[$tem[0]] = $tem[1];
                 }
                 
+                $old = file_get_contents('submit.txt');
+                file_put_contents('submit.txt', $old."\n".json_encode($res));
+                
                 $content = '<tr>
-	        		<td height="30" align="center">'.$client_name.'</td>';
+	        		<td height="30" align="center">【'.$client_name.'】</td>';
                 
                 foreach($res as $v){
                 	$content.= '<td align="center">'.urldecode($v).'</td>';
