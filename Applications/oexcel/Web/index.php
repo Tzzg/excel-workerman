@@ -1,3 +1,4 @@
+<?php ?>
 <html><head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <title>在线提交</title>
@@ -14,17 +15,17 @@
 		    <div class="thumbnail">
 		               <div class="caption" id="dialog"></div>
 		     </div>
-	     <div class="col-md-3 column">
+	     <div class="col-md-2 column">
 	           <div class="thumbnail">
                    <div class="caption" id="userlist"></div>
                </div>
 	     </div>
-	     <div class="thumbnail" style="">
-				<input type="button" id="btn_submit" value="提交">
-				<table id="dynamicTable" width="700" border="0" cellspacing="0" cellpadding="0">
+	     <div class="col-md-3 column" style="">
+				
+				<table id="dynamicTable" width="100%" border="0" cellspacing="0" cellpadding="0">
 					<thead>
 						<tr>
-							<td height="30" align="center" bgcolor="#CCCCCC">ID</td>
+							<td align="center" bgcolor="#CCCCCC">ID</td>
 							<td align="center" bgcolor="#CCCCCC">name</td>
 							<td align="center" bgcolor="#CCCCCC">sex</td>
 							<td align="center" bgcolor="#CCCCCC">age</td>
@@ -40,21 +41,22 @@
 							<td align="center">11</td>
 							<td align="center">9</td>
 						</tr>
-						<?php $old = file_get_contents('submit.txt');
+						<?php 
+							$redis = new redis();
+							$redis -> connect('127.0.0.1',6379);
+							$old = $redis->sMembers('myset');
 							if(!empty($old)){
-								$old = explode("\n",$old);
-								
 								foreach ($old as $val){
 						?>
 								<tr id='old'>
 									<?php foreach (json_decode($val) as $v){?>
-									<td align="center"><?php echo $v;?></td>
+									<td align="center"><?php echo urldecode($v);?></td>
 									<?php }?>
 								</tr>
 						<?php 	}}?>
 						
 						<tr>
-							<td height="30" align="center">
+							<td align="center">
 								<?php echo $_SESSION['client_name'];?></td>
 							<td align="center">
 								<input type="text" name="start_end_time" /></td>
@@ -68,6 +70,7 @@
 					</tbody>
 					</form>
 				</table>
+				<input type="button" id="btn_submit" value="提交">
 		</div>
     </div>
 	

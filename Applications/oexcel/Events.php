@@ -57,17 +57,23 @@ class Events
                 $arr = explode('&',$message_data['content']);
                 
                 
-                $res = [];
+                $res = [$_SESSION['client_name']];
                 foreach ($arr as $val){
                 	$tem = explode('=',$val);
                 	$res[$tem[0]] = $tem[1];
                 }
+              
+                //设置 redis 字符串数据
+                $redis = new Redis();
+                $redis->connect('127.0.0.1', 6379);
+                echo "Connection to server sucessfully";
                 
-                $old = file_get_contents('submit.txt');
-                file_put_contents('submit.txt', $old."\n".json_encode($res));
                 
-                $content = '<tr>
-	        		<td height="30" align="center">【'.$client_name.'】</td>';
+                $f = $redis->sadd('myset',json_encode($res));
+                
+                if ($f==0)return ;
+                
+                $content = '<tr>';
                 
                 foreach($res as $v){
                 	$content.= '<td align="center">'.urldecode($v).'</td>';
